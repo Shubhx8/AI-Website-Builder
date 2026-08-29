@@ -1,5 +1,5 @@
 const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
-const DEFAULT_MODEL = "poolside/laguna-s-2.1:free";
+const DEFAULT_MODEL = "openrouter/free";
 
 /**
  * Sends a request to OpenRouter API.

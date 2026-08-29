@@ -3,10 +3,13 @@ import { motion } from "framer-motion"
 import { useNavigate } from "react-router-dom"
 import Navbar from "../components/Navbar"
 import { useSelector } from "react-redux"
+import { useState } from "react"
+import LoginModal from "../components/LoginModal"
 
 const Home = () => {    
     const navigate = useNavigate()
-     const { userData } = useSelector(state => state.user)
+    const { userData } = useSelector(state => state.user)
+    const [openLogin, setOpenLogin] = useState(false)
   return (
     <>
     <Navbar/>
@@ -74,7 +77,16 @@ const Home = () => {
           transition={{ delay: 0.3 }}
           className="flex flex-col sm:flex-row justify-center gap-4 mt-10"
         >
-          <button onClick={()=>navigate('/generate')} className="flex items-center justify-center gap-2 px-6 py-3 bg-indigo-500 hover:bg-indigo-600 rounded-xl font-semibold transition">
+          <button 
+            onClick={() => {
+              if (userData) {
+                navigate('/generate')
+              } else {
+                setOpenLogin(true)
+              }
+            }} 
+            className="flex items-center justify-center gap-2 px-6 py-3 bg-indigo-500 hover:bg-indigo-600 rounded-xl font-semibold transition"
+          >
             Start Building
             <ArrowRight size={18} />
           </button>
@@ -121,6 +133,13 @@ const Home = () => {
 
       </div>
     </section>
+
+    {openLogin && (
+      <LoginModal
+        open={openLogin}
+        onClose={() => setOpenLogin(false)}
+      />
+    )}
     </>
   )
 }

@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import LoginModal from "./LoginModal"
 import { useDispatch, useSelector } from "react-redux"
 import { Coins } from "lucide-react"
@@ -11,6 +11,20 @@ const Navbar = () => {
 
   const [openLogin, setOpenLogin] = useState(false)
   const [openProfile, setOpenProfile] = useState(false)
+  const [isOnline, setIsOnline] = useState(navigator.onLine)
+
+  useEffect(() => {
+    const handleOnline = () => setIsOnline(true)
+    const handleOffline = () => setIsOnline(false)
+
+    window.addEventListener('online', handleOnline)
+    window.addEventListener('offline', handleOffline)
+
+    return () => {
+      window.removeEventListener('online', handleOnline)
+      window.removeEventListener('offline', handleOffline)
+    }
+  }, [])
 
   const { userData } = useSelector(state => state.user)
 
@@ -47,9 +61,8 @@ const Navbar = () => {
             onClick={() => navigate("/")}
             className="flex items-center gap-2 cursor-pointer bg-white/5 p-2 px-4 rounded-2xl border border-zinc-600"
           >
-            <img src="/ai2.png" className="w-7" />
-
-            <span className="font-semibold text-lg bg-linear-to-r from-purple-400 to-indigo-500 bg-clip-text text-transparent">
+            <img src={isOnline ? "/robot-only.png" : "/logo-gray.png"} className="h-10 object-contain" alt="WEBMAXER" />
+            <span className="font-bold text-xl bg-linear-to-r from-purple-400 to-indigo-500 bg-clip-text text-transparent">
               WEBMAXER
             </span>
           </div>

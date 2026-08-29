@@ -170,7 +170,7 @@ export const generateWebsite = async (req, res) => {
     let raw = "";
     let parsed = null;
 
-    for (let i = 0; i < 2 && !parsed; i++) {
+    for (let i = 0; i < 1 && !parsed; i++) {
       raw = await generateResponse(finalPrompt);
       parsed = await extractJson(raw);
 
@@ -264,7 +264,7 @@ export const changeWebsite = async (req, res) => {
     let raw = "";
     let parsed = null;
 
-    for (let i = 0; i < 2 && !parsed; i++) {
+    for (let i = 0; i < 1 && !parsed; i++) {
       raw = await generateResponse(updatePrompt);
       parsed = await extractJson(raw);
 
