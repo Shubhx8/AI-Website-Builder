@@ -74,7 +74,20 @@ function Dashboard() {
           <h1 className="text-3xl font-bold">{userData.name}</h1>
         </motion.div>
 
-        {loading && <div className="mt-24 text-center text-zinc-400">Loading your websites...</div>}
+        {loading && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
+            {[1, 2, 3].map((skeleton) => (
+              <div key={skeleton} className="rounded-2xl bg-white/5 border border-white/10 overflow-hidden flex flex-col animate-pulse">
+                <div className="h-40 bg-white/10" />
+                <div className="p-5 flex flex-col gap-4 flex-1">
+                  <div className="h-5 bg-white/10 rounded-md w-3/4" />
+                  <div className="h-3 bg-white/5 rounded-md w-1/2" />
+                  <div className="mt-6 h-10 bg-white/10 rounded-xl w-full" />
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
         {error && !loading && <div className="mt-24 text-center text-red-400">{error}</div>}
         {websites?.length === 0 && <div className="mt-24 text-center text-zinc-400">You have no websites.</div>}
         {websites?.length > 0 &&
