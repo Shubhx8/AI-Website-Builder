@@ -120,8 +120,8 @@ const WebsiteEditor = () => {
                         </div>
                     </div>
                     <div className='flex-1 w-full bg-[#050505] flex flex-col items-center justify-center'>
-                        <div style={{ width: '40px', height: '40px', border: '3px solid rgba(255,255,255,0.1)', borderLeftColor: '#8b5cf6', borderRadius: '50%', animation: 'spin 1s linear infinite', boxSizing: 'border-box' }}></div>
-                        <div style={{ marginTop: '20px', color: '#a1a1aa', fontSize: '13px', letterSpacing: '3px', animation: 'pulse 2s ease-in-out infinite', boxSizing: 'border-box' }}>LOADING SITE</div>
+                         <div className="w-10 h-10 border-[3px] border-white/10 border-l-[#8b5cf6] rounded-full animate-spin"></div>
+                        <div className="mt-5 text-[#a1a1aa] text-[13px] tracking-[3px] animate-pulse">LOADING SITE</div>
                     </div>
                 </div>
             </div>
