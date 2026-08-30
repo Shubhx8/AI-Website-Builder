@@ -15,15 +15,27 @@ import {
 // 1. Bypass redux-persist imports entirely and use native browser storage
 const customStorage = {
   getItem(_key) {
-    return Promise.resolve(window.localStorage.getItem(_key));
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(window.localStorage.getItem(_key));
+      }, 0);
+    });
   },
   setItem(_key, value) {
-    window.localStorage.setItem(_key, value);
-    return Promise.resolve(value);
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        window.localStorage.setItem(_key, value);
+        resolve(value);
+      }, 0);
+    });
   },
   removeItem(_key) {
-    window.localStorage.removeItem(_key);
-    return Promise.resolve();
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        window.localStorage.removeItem(_key);
+        resolve();
+      }, 0);
+    });
   },
 };
 
@@ -31,6 +43,7 @@ const persistConfig = {
   key: 'ai-website-builder',
   version: 1,
   storage: customStorage, // 2. Attach the custom storage here
+  timeout: 100, // 3. Force hydration to complete instantly instead of hitting the default 5000ms failsafe timeout
 };
 
 const rootReducer = combineReducers({
