@@ -27,14 +27,14 @@ const WebsiteEditor = () => {
     ]
 
     const handleDeploy = async (id) => {
-    try {
-         const result = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/website/deploy/${website._id}`,{withCredentials:true})
-         window.open(`${result.data.url}`,"_blank")
-         
-    } catch (error) {
-         console.log(error)
+        try {
+            const result = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/website/deploy/${website._id}`, { withCredentials: true })
+            window.open(`${result.data.url}`, "_blank")
+
+        } catch (error) {
+            console.log(error)
+        }
     }
-  }
 
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -87,7 +87,44 @@ const WebsiteEditor = () => {
     }
     if (!website) {
         return (
-            <div className='h-screen flex items-center justify-center bg-black text-white'>Loading...</div>
+            <div className='h-screen w-screen flex bg-black text-white overflow-hidden'>
+                {/* Sidebar Skeleton */}
+                <aside className='hidden lg:flex w-95 flex-col border-r border-white/10 bg-black/80'>
+                    {/* Header Skeleton */}
+                    <div className='h-14 px-4 flex items-center border-b border-white/10'>
+                        <div className="h-5 bg-white/10 rounded-md w-1/2 animate-pulse" />
+                    </div>
+                    {/* Chat Messages Skeleton */}
+                    <div className='flex-1 p-4 space-y-6 mt-4'>
+                        <div className='w-[80%] ml-auto h-12 bg-white/10 rounded-2xl animate-pulse' />
+                        <div className='w-[90%] mr-auto h-24 bg-white/5 rounded-2xl animate-pulse' />
+                        <div className='w-[70%] ml-auto h-10 bg-white/10 rounded-2xl animate-pulse' />
+                    </div>
+                    {/* Input Skeleton */}
+                    <div className='p-3 border-t border-white/10'>
+                        <div className='flex gap-2 animate-pulse'>
+                            <div className='flex-1 h-12 bg-white/5 rounded-2xl border border-white/10' />
+                            <div className='w-14 h-12 rounded-2xl bg-white/10' />
+                        </div>
+                    </div>
+                </aside>
+                {/* Preview Area Skeleton */}
+                <div className='flex-1 flex flex-col'>
+                    <div className='h-14 px-4 flex justify-between items-center border-b border-white/10 bg-black/80'>
+                        <div className="h-3 bg-white/10 rounded-md w-24 animate-pulse" />
+                        <div className='flex gap-2 animate-pulse'>
+                            <div className='w-24 h-8 bg-white/10 rounded-lg' />
+                            <div className='w-8 h-8 bg-white/10 rounded-lg hidden lg:block' />
+                            <div className='w-8 h-8 bg-white/10 rounded-lg' />
+                            <div className='w-8 h-8 bg-white/10 rounded-lg' />
+                        </div>
+                    </div>
+                    <div className='flex-1 w-full bg-[#050505] flex flex-col items-center justify-center'>
+                        <div style={{ width: '40px', height: '40px', border: '3px solid rgba(255,255,255,0.1)', borderLeftColor: '#8b5cf6', borderRadius: '50%', animation: 'spin 1s linear infinite', boxSizing: 'border-box' }}></div>
+                        <div style={{ marginTop: '20px', color: '#a1a1aa', fontSize: '13px', letterSpacing: '3px', animation: 'pulse 2s ease-in-out infinite', boxSizing: 'border-box' }}>LOADING SITE</div>
+                    </div>
+                </div>
+            </div>
         )
     }
     return (
@@ -129,17 +166,17 @@ const WebsiteEditor = () => {
                 <div className='h-14 px-4 flex justify-between items-center border-b border-white/10 bg-black/80'>
                     <span className='text-xs text-zinc-400'>Live Preview</span>
                     <div className='flex gap-2'>
-                        {website.deployed ? "": <button 
-                        onClick={handleDeploy}
-                        className='flex items-center gap-2 px-4 py-1.5 rounded-lg bg-linear-to-r from-indigo-500 to-purple-500 text-sm font-semibold hover:scale-105 transition'><Rocket size={14} />Deploy</button>}
-                      
+                        {website.deployed ? "" : <button
+                            onClick={handleDeploy}
+                            className='flex items-center gap-2 px-4 py-1.5 rounded-lg bg-linear-to-r from-indigo-500 to-purple-500 text-sm font-semibold hover:scale-105 transition'><Rocket size={14} />Deploy</button>}
+
                         <button onClick={() => setShowChat(true)} className='p-2 lg:hidden'><MessageSquare size={18} /></button>
                         <button onClick={() => setShowCode(true)} className='p-2'><Code2 size={18} /></button>
                         <button onClick={() => setShowFullPreview(true)} className='p-2'><Monitor size={18} /></button>
                     </div>
 
                 </div>
-                <iframe ref={iframeRef} className='flex-1 w-full bg-white' sandbox='allow-scripts allow-same-origin allow-forms'/>
+                <iframe ref={iframeRef} className='flex-1 w-full bg-white' sandbox='allow-scripts allow-same-origin allow-forms' />
             </div>
 
             {/* mobile chat preview */}
@@ -216,7 +253,7 @@ const WebsiteEditor = () => {
         return (
             <div className='h-14 px-4 flex items-center justify-between border-b border-white/10'>
                 <span className='font-semibold truncate'>{website.title}</span>
-                <button onClick={()=>setShowChat(false)} className='lg:hidden'><X/></button>
+                <button onClick={() => setShowChat(false)} className='lg:hidden'><X /></button>
             </div>
         )
     }
