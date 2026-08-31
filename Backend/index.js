@@ -25,6 +25,10 @@ app.use('/api/auth', authRoute)
 app.use('/api/website', websiteRoute)
 app.use('/api/payment', paymentRoute)
 
+// Health check endpoint to keep Render server awake
+app.get('/api/health', (req, res) => {
+    res.status(200).json({ status: 'ok', message: 'Server is awake' })
+})
 
 app.listen(PORT, ()=>{
     connectDB()
