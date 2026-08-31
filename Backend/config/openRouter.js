@@ -1,5 +1,5 @@
 const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
-const DEFAULT_MODEL = "openrouter/free";
+const DEFAULT_MODEL =  "google/gemini-2.0-flash-exp:free";;
 
 /**
  * Sends a request to OpenRouter API.
@@ -26,7 +26,9 @@ export const generateResponse = async (promptOrMessages, enableReasoning = false
     model: DEFAULT_MODEL,
     messages: messages,
     temperature: 0.2,
+    response_format: { type: "json_object" }
   };
+  
 
   // Enable reasoning if requested
   if (enableReasoning) {
