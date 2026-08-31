@@ -1,5 +1,9 @@
 const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
-const DEFAULT_MODEL =  "google/gemini-2.0-flash-exp:free";;
+const DEFAULT_MODEL = "google/gemini-2.0-flash-exp:free";
+const FALLBACK_MODELS = [
+  "meta-llama/llama-3.3-70b-instruct:free",
+  "qwen/qwen-2.5-coder-32b-instruct:free"
+];
 
 /**
  * Sends a request to OpenRouter API.
@@ -24,11 +28,11 @@ export const generateResponse = async (promptOrMessages, enableReasoning = false
 
   const requestBody = {
     model: DEFAULT_MODEL,
+    models: FALLBACK_MODELS,
     messages: messages,
     temperature: 0.2,
     response_format: { type: "json_object" }
   };
-  
 
   // Enable reasoning if requested
   if (enableReasoning) {
