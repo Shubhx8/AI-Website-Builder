@@ -1,6 +1,9 @@
 const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
-const DEFAULT_MODEL = "google/gemini-2.0-flash-exp:free";
-const FALLBACK_MODELS = [];
+const DEFAULT_MODEL = "google/gemma-4-31b-it:free";
+const FALLBACK_MODELS = [
+  "cohere/north-mini-code:free"
+];
+
 
 /**
  * Sends a request to OpenRouter API.
