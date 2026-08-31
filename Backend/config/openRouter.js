@@ -1,5 +1,5 @@
 const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
-const DEFAULT_MODEL = "cohere/north-mini-code:free"; // Extremely fast coding model
+const DEFAULT_MODEL = "nvidia/nemotron-3.5-lightning:free"; 
 const FALLBACK_MODELS = []; 
 
 
