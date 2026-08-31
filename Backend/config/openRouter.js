@@ -1,8 +1,6 @@
 const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
-const DEFAULT_MODEL = "google/gemma-4-31b-it:free";
-const FALLBACK_MODELS = [
-  "cohere/north-mini-code:free"
-];
+const DEFAULT_MODEL = "cohere/north-mini-code:free"; // Extremely fast coding model
+const FALLBACK_MODELS = []; 
 
 
 /**
