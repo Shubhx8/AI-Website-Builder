@@ -1,7 +1,6 @@
 const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
 const DEFAULT_MODEL = "google/gemini-2.0-flash-exp:free";
 const FALLBACK_MODELS = [
-  "meta-llama/llama-3.3-70b-instruct:free",
   "qwen/qwen-2.5-coder-32b-instruct:free"
 ];
 
