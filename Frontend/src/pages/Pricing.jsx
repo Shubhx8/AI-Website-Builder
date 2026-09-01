@@ -70,7 +70,7 @@ const Pricing = () => {
                 planId: plan.id,
                 amount: amount,
                 credits: plan.credits
-            }, { withCredentials: true })
+            })
            
 
             const options = {
@@ -85,8 +85,7 @@ const Pricing = () => {
                     console.log(response)
                     const verify = await axios.post(
                         `${import.meta.env.VITE_SERVER_URL}/api/payment/verify`,
-                        response,
-                        { withCredentials: true }
+                        response
                     )
 
                     console.log(verify.data)
