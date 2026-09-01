@@ -13,7 +13,7 @@ export const generateResponse = async (promptOrMessages, enableReasoning = false
   // Using Google's native Gemini API for stability and generous free tier
   
 // Change this line in your geminiApi.js file:
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=${apiKey}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey}`;
 
 
   let contents = [];
