@@ -11,7 +11,8 @@ export const generateResponse = async (promptOrMessages, enableReasoning = false
   }
 
   // Using Google's native Gemini API for stability and generous free tier
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+  
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey}`;
 
   let contents = [];
   
