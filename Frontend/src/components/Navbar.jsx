@@ -33,10 +33,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.get(
-        `${import.meta.env.VITE_SERVER_URL}/api/auth/logout`,
-        { withCredentials: true }
-      )
+      await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/auth/logout`)
 
       dispatch(setUserData(null))
       setOpenProfile(false)
