@@ -91,8 +91,11 @@ const Home = () => {
             <ArrowRight size={18} />
           </button>
 
-          <button className="px-6 py-3 border border-white/20 hover:bg-white/10 rounded-xl transition">
-            Watch Demo
+          <button 
+            onClick={() => navigate('/pricing')}
+            className="px-6 py-3 border border-white/20 hover:bg-white/10 rounded-xl transition"
+          >
+            View Pricing
           </button>
         </motion.div>
 
