@@ -5,45 +5,43 @@
  * @returns {Promise<string>} The assistant's generated response.
  */
 export const generateResponse = async (promptOrMessages, enableReasoning = false) => {
-  const apiKey = process.env.OPENROUTER_API_KEY;
+  const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
-    throw new Error("OPENROUTER_API_KEY is missing from your .env file!");
+    throw new Error("GEMINI_API_KEY is missing from your .env file!");
   }
 
-  // We are using DeepSeek V3 via OpenRouter free tier
-  const url = `https://openrouter.ai/api/v1/chat/completions`;
+  // Using Google's native Gemini API for stability and generous free tier
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
-  let messages = [];
+  let contents = [];
   
   if (Array.isArray(promptOrMessages)) {
-    messages = promptOrMessages.map(msg => ({
-      role: msg.role === "ai" || msg.role === "model" ? "assistant" : "user",
-      content: msg.content
+    contents = promptOrMessages.map(msg => ({
+      role: msg.role === "ai" || msg.role === "assistant" ? "model" : "user",
+      parts: [{ text: msg.content }]
     }));
   } else {
-    messages = [
-      { role: "user", content: promptOrMessages }
+    contents = [
+      { role: "user", parts: [{ text: promptOrMessages }] }
     ];
   }
 
   const requestBody = {
-     model: "meta-llama/llama-3.3-70b-instruct:free",
-    messages: [
-      { role: "system", content: "You are an expert web developer. Return only valid raw JSON representing the website code and structure." },
-      ...messages
-    ],
-    temperature: 0.2,
-    response_format: { type: "json_object" }
+    systemInstruction: {
+      parts: [{ text: "You are an expert web developer. Return only valid raw JSON representing the website code and structure." }]
+    },
+    contents: contents,
+    generationConfig: {
+      temperature: 0.2,
+      responseMimeType: "application/json"
+    }
   };
 
   try {
     const response = await fetch(url, {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-        "HTTP-Referer": "https://webmaxer.onrender.com", 
-        "X-Title": "WEBMAXER"
+        "Content-Type": "application/json"
       },
       body: JSON.stringify(requestBody)
     });
@@ -51,16 +49,16 @@ export const generateResponse = async (promptOrMessages, enableReasoning = false
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error(data.error?.message || "Failed to fetch from OpenRouter API");
+      throw new Error(data.error?.message || "Failed to fetch from Gemini API");
     }
 
-    if (data.choices && data.choices.length > 0) {
-      return data.choices[0].message.content;
+    if (data.candidates && data.candidates.length > 0) {
+      return data.candidates[0].content.parts[0].text;
     } else {
-      throw new Error("OpenRouter returned an empty response");
+      throw new Error("Gemini returned an empty response");
     }
   } catch (error) {
-    console.error("OpenRouter API Error:", error.message);
+    console.error("Gemini API Error:", error.message);
     throw error;
   }
 };
