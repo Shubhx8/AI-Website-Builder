@@ -9,8 +9,11 @@ import { setUserData } from '../redux/userSlice.js'
 
 const LoginModal = ({ open, onClose }) => {
     const dispatch = useDispatch()
+    const [isLoading, setIsLoading] = React.useState(false)
+
     const handleGoogleAuth = async () => {
         try {
+            setIsLoading(true)
             const result = await signInWithPopup(auth, provider)
             const { data } = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/auth/google`, {
                 name: result.user.displayName,
@@ -21,6 +24,8 @@ const LoginModal = ({ open, onClose }) => {
             onClose()
         } catch (error) {
             console.log(error)
+        } finally {
+            setIsLoading(false)
         }
     }
     return (
@@ -69,12 +74,22 @@ const LoginModal = ({ open, onClose }) => {
                                 </h2>
                                 <motion.button
                                     onClick={handleGoogleAuth}
-                                    whileHover={{ scale: 1.04 }}
-                                    whileTap={{ scale: 0.96 }}
-                                    className='group relative w-full h-13 rounded-xl bg-white text-black font-semibold shadow-xl overflow-hidden'>
+                                    disabled={isLoading}
+                                    whileHover={{ scale: isLoading ? 1 : 1.04 }}
+                                    whileTap={{ scale: isLoading ? 1 : 0.96 }}
+                                    className={`group relative w-full h-13 rounded-xl bg-white text-black font-semibold shadow-xl overflow-hidden ${isLoading ? "opacity-70 cursor-not-allowed" : ""}`}>
                                     <div className='relative flex items-center justify-center gap-3'>
-                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/3840px-Google_%22G%22_logo.svg.png" alt="" className='h-5 w-5' />
-                                        Continue with Google
+                                        {isLoading ? (
+                                            <div className="flex items-center gap-2">
+                                                <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
+                                                Signing in...
+                                            </div>
+                                        ) : (
+                                            <>
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/3840px-Google_%22G%22_logo.svg.png" alt="" className='h-5 w-5' />
+                                                Continue with Google
+                                            </>
+                                        )}
                                     </div>
 
                                 </motion.button>
