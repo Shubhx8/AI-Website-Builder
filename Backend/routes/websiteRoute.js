@@ -10,6 +10,6 @@ router.post('/update/:id', isAuthenticated, changeWebsite)
 router.get('/getbyid/:id', isAuthenticated, getWebsiteById)
 router.get('/getall', isAuthenticated, getAllWebsite)
 router.get('/deploy/:id', isAuthenticated, deployWebsite)
-router.get('/getbyslug/:slug', isAuthenticated, getBySlug)
+router.get('/getbyslug/:slug', getBySlug)
 
 export default router
