@@ -1,7 +1,6 @@
 const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
-const DEFAULT_MODEL = "nvidia/nemotron-3.5-lightning:free"; 
-const FALLBACK_MODELS = []; 
-
+const DEFAULT_MODEL = "openrouter/free";
+const FALLBACK_MODELS = [];
 
 /**
  * Sends a request to OpenRouter API.
@@ -28,8 +27,7 @@ export const generateResponse = async (promptOrMessages, enableReasoning = false
     model: DEFAULT_MODEL,
     models: FALLBACK_MODELS,
     messages: messages,
-    temperature: 0.2,
-    response_format: { type: "json_object" }
+    temperature: 0.2
   };
 
   // Enable reasoning if requested
