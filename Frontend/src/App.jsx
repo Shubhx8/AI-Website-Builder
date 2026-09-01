@@ -9,6 +9,7 @@ const Generate = React.lazy(() => import('./pages/Generate'))
 const WebsiteEditor = React.lazy(() => import('./pages/WebsiteEditor'))
 const LiveSite = React.lazy(() => import('./pages/LiveSite'))
 const Pricing = React.lazy(() => import('./pages/Pricing'))
+const Signup = React.lazy(() => import('./pages/Signup'))
 
 // Reusable animated loader
 export const FullScreenLoader = () => (
@@ -26,6 +27,7 @@ const App = () => {
        <Suspense fallback={<FullScreenLoader />}>
          <Routes>
            <Route path='/' element={<Home/>}/>
+           <Route path='/signup' element={userData?<Dashboard/>:<Signup/>}/>
            <Route path='/dashboard' element={userData?<Dashboard/>:<Home/>}/>
            <Route path='/generate' element={userData?<Generate/>:<Home/>}/>
            <Route path='/editor/:id' element={userData?<WebsiteEditor/>:<Home/>}/>

@@ -168,14 +168,22 @@ const Navbar = () => {
 
             ) : (
 
-              <motion.button
-                whileTap={{ scale: 0.95 }}
-                whileHover={{ scale: 1.05 }}
-                onClick={() => setOpenLogin(true)}
-                className="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 font-semibold text-sm transition text-white"
-              >
-                Login
-              </motion.button>
+              <div className="flex items-center gap-2 sm:gap-3">
+                <button
+                  onClick={() => setOpenLogin(true)}
+                  className="hidden sm:block px-4 py-2 text-sm font-medium text-zinc-300 hover:text-white transition"
+                >
+                  Log in
+                </button>
+                <motion.button
+                  whileTap={{ scale: 0.95 }}
+                  whileHover={{ scale: 1.05 }}
+                  onClick={() => navigate("/signup")}
+                  className="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 font-semibold text-sm transition text-white shadow-[0_0_15px_rgba(79,70,229,0.3)]"
+                >
+                  Sign up
+                </motion.button>
+              </div>
 
             )}
 
