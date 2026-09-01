@@ -78,18 +78,25 @@ const Navbar = () => {
               Pricing
             </button> */}
 
-            {/* Credits */}
+            {/* Credits and Plan Badge */}
             {userData && (
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                onClick={() => navigate("/pricing")}
-                className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-sm cursor-pointer hover:bg-white/10 transition"
-              >
+              <div className="flex items-center gap-3">
+                {userData.plan && userData.plan !== "free" && (
+                  <span className="hidden md:inline-block px-2.5 py-1 text-[10px] font-black rounded-lg bg-linear-to-r from-amber-300 to-yellow-500 text-black uppercase tracking-widest shadow-[0_0_15px_rgba(251,191,36,0.4)] border border-yellow-200">
+                    {userData.plan}
+                  </span>
+                )}
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  onClick={() => navigate("/pricing")}
+                  className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-sm cursor-pointer hover:bg-white/10 transition"
+                >
                 <Coins size={14} className="text-yellow-400" />
                 <span className="text-white">{userData.credits}</span>
                 <span className="text-zinc-200">Credits</span>
                 <span className="font-semibold text-zinc-200">+</span>
-              </motion.div>
+                </motion.div>
+              </div>
             )}
 
             {/* Profile OR Login */}

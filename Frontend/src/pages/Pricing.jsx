@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'motion/react'
 import axios from 'axios'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setUserData } from '../redux/userSlice'
 
 
@@ -57,6 +57,7 @@ const plans = [
 const Pricing = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const { userData } = useSelector(state => state.user)
 
     const handlePayment = async (plan) => {
         if (plan.id === "free") {
@@ -155,11 +156,12 @@ const Pricing = () => {
                         </ul>
                         <motion.button
                             onClick={() => handlePayment(p)}
+                            disabled={userData?.plan === p.id}
                             whileTap={{ scale: 0.96 }}
                             className={`w-full py-3 rounded-xl font-semibold transition ${p.popular ? "bg-indigo-500 hover:bg-indigo-600" :
-                                "bg-white/10 hover:bg-white/20"} disabled:opacity-60`}
+                                "bg-white/10 hover:bg-white/20"} disabled:opacity-50 disabled:cursor-not-allowed`}
                         >
-                            {p.button}
+                            {userData?.plan === p.id ? "Current Plan" : p.button}
                         </motion.button>
                     </motion.div>
                 ))}
