@@ -10,8 +10,8 @@ export const generateResponse = async (promptOrMessages, enableReasoning = false
     throw new Error("GEMINI_API_KEY is missing from your .env file!");
   }
 
-  // We will use gemini-2.0-flash which is extremely fast, free (15 RPM), and powerful
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+  // We will use gemini-3.6-flash which is extremely fast, free, and powerful
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey}`;
 
   let contents = [];
   
