@@ -27,7 +27,7 @@ export const generateResponse = async (promptOrMessages, enableReasoning = false
   }
 
   const requestBody = {
-    model: "deepseek/deepseek-chat:free",
+     model: "meta-llama/llama-3.3-70b-instruct:free",
     messages: [
       { role: "system", content: "You are an expert web developer. Return only valid raw JSON representing the website code and structure." },
       ...messages
