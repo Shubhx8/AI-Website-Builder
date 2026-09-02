@@ -1,7 +1,7 @@
-import { ArrowLeft, Check, Coins } from 'lucide-react'
+import { ArrowLeft, Check, Coins, Zap } from 'lucide-react'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { motion } from 'motion/react'
+import { motion } from 'framer-motion'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { setUserData } from '../redux/userSlice'
@@ -60,6 +60,11 @@ const Pricing = () => {
     const { userData } = useSelector(state => state.user)
 
     const handlePayment = async (plan) => {
+        if (!userData) {
+            navigate("/signup")
+            return
+        }
+
         if (plan.id === "free") {
             navigate("/dashboard")
             return
@@ -104,66 +109,93 @@ const Pricing = () => {
         }
     }
     return (
-        <div className='relative min-h-screen overflow-hidden bg-[#050505] text-white px-6 pt-16 pb-24'>
-            <div className='absolute inset-0 pointer-events-none'>
-                <div className='absolute -top-40 -left-40 w-125 h-125 bg-indigo-600/20 rounded-full blur-[120px]' />
-                <div className='absolute bottom-0 right-0 w-125 h-125 bg-indigo-600/20 rounded-full blur-[120px]' />
-            </div>
-            <button onClick={() => navigate("/")} className='relative z-10 mb-8 flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition'>
-                <ArrowLeft size={16} />
-                Back
-            </button>
-            <motion.div
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                className='relative z-10 max-w-4xl mx-auto text-center mb-14'
-            >
-                <h1 className='text-4xl md:text-5xl font-bold mb-4'>Simple, transparent pricing</h1>
-                <p className='text-zinc-400 text-lg'>Buy credit once. Build anytime.</p>
-            </motion.div>
+        <div className='relative min-h-screen overflow-hidden bg-[#09090b] text-white pt-16 pb-32 font-sans'>
+            
+            {/* Ambient Glow Background */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[400px] bg-gradient-to-tr from-blue-600/10 via-cyan-500/10 to-emerald-500/10 blur-[100px] rounded-[100%] pointer-events-none z-0"></div>
 
-            <div className='relative z-10 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8'>
-                {plans.map((p, i) => (
-                    <motion.div
-                        key={i}
-                        initial={{ oapcity: 0, y: 40 }}
-                        whileInView={{ oapcity: 1, y: 0 }}
-                        transition={{ delay: i * 0.12 }}
-                        whileHover={{ y: -14, scale: 1.03 }}
-                        className={`relative rounded-3xl p-8 border backdrop-blur-xl transition-all 
-                            ${p.popular ? "border-indigo-500 bg-linear-to-b from-indigo-500/20 to-transparent shadow-2xl shadow-indigo-500/30" :
-                                "border-white/10 bg-white/5 hover:border-indigo-400 hover:bg-white/10"}`}
-                    >
-                        {p.popular && <span className='absolute top-5 right-5 px-3 py-1 text-xs rounded-full bg-indigo-500'>Most Popular</span>}
-                        <h1 className='text-xl font-semibold mb-2'>{p.name}</h1>
-                        <p className='text-zinc-400 text-sm mb-6'>{p.description}</p>
-                        <div className='flex items-end gap-1 mb-4'>
-                            <span className='text-4xl font-bold'>{p.price}</span>
-                            <span className='text-sm text-zinc-400 mb-1'>/one-time</span>
-                        </div>
-                        <div className='flex items-center gap-2 mb-8'>
-                            <Coins size={18} className='text-yellow-400' />
-                            <span className='font-semibold'>{p.credits} Credits</span>
-                        </div>
-                        <ul className='space-y-3 mb-10'>
-                            {p.features.map((f) => (
-                                <li key={f} className='flex items-center gap-2 text-sm text-zinc-300'>
-                                    <Check size={16} className='text-green-400' />
-                                    {f}
-                                </li>
-                            ))}
-                        </ul>
-                        <motion.button
-                            onClick={() => handlePayment(p)}
-                            disabled={userData?.plan === p.id}
-                            whileTap={{ scale: 0.96 }}
-                            className={`w-full py-3 rounded-xl font-semibold transition ${p.popular ? "bg-indigo-500 hover:bg-indigo-600" :
-                                "bg-white/10 hover:bg-white/20"} disabled:opacity-50 disabled:cursor-not-allowed`}
-                        >
-                            {userData?.plan === p.id ? "Current Plan" : p.button}
-                        </motion.button>
-                    </motion.div>
-                ))}
+            {/* Cyber Grid Background */}
+            <div
+                className="absolute inset-0 z-0 opacity-20 pointer-events-none"
+                style={{
+                    backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.1) 1px, transparent 0)',
+                    backgroundSize: '24px 24px'
+                }}
+            />
+
+            <div className="relative z-10 max-w-7xl mx-auto px-6">
+              <button onClick={() => navigate(-1)} className='mb-12 flex items-center gap-2 text-sm text-zinc-400 hover:text-white bg-white/5 hover:bg-white/10 px-4 py-2 rounded-xl backdrop-blur-md transition-all w-fit'>
+                  <ArrowLeft size={16} />
+                  Back
+              </button>
+
+              <motion.div
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className='text-center mb-20'
+              >
+                  <h1 className='text-4xl md:text-5xl font-extrabold tracking-tight mb-4'>Choose your plan. Go live today.</h1>
+                  <p className='text-zinc-400 font-light flex flex-wrap items-center justify-center gap-6'>
+                    <span className="flex items-center gap-2"><Check className="text-emerald-400 w-4 h-4" /> 30-day money-back guarantee</span>
+                    <span className="flex items-center gap-2"><Check className="text-emerald-400 w-4 h-4" /> Cancel anytime</span>
+                  </p>
+              </motion.div>
+
+              <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
+                  {plans.map((p, i) => (
+                      <motion.div
+                          key={i}
+                          initial={{ opacity: 0, y: 40 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={{ once: true, margin: "-100px" }}
+                          transition={{ delay: i * 0.15, duration: 0.5, ease: "easeOut" }}
+                          whileHover={{ y: -8, scale: 1.02, transition: { type: "spring", stiffness: 400, damping: 25 } }}
+                          className={`relative p-8 rounded-3xl flex flex-col transition-all duration-300 ${p.popular ? "bg-white/5 backdrop-blur-3xl border border-cyan-500/50 shadow-[0_0_30px_rgba(34,211,238,0.15)] z-10" : "bg-white/5 backdrop-blur-3xl border border-white/10 hover:border-white/20 hover:shadow-2xl"}`}
+                      >
+                          {p.popular && <div className="absolute top-0 right-8 -translate-y-1/2 px-3 py-1 bg-gradient-to-r from-cyan-400 to-blue-500 text-[10px] font-black tracking-widest uppercase rounded-full text-black shadow-[0_0_15px_rgba(34,211,238,0.3)]">Most Popular</div>}
+                          
+                          <div className='mb-6'>
+                              <h3 className="text-2xl font-bold mb-2 text-white">
+                                {p.name}
+                              </h3>
+                              <p className='text-zinc-400 text-sm font-light'>{p.description}</p>
+                          </div>
+
+                          <div className='mb-4'>
+                              <span className="text-5xl font-black text-white">{p.price}</span>
+                              <span className='text-zinc-500 text-sm'>/one-time</span>
+                          </div>
+
+                          <div className='flex items-center gap-2 mb-8'>
+                              <Coins size={18} className='text-yellow-500' />
+                              <span className='font-bold text-sm text-white'>{p.credits} Credits</span>
+                          </div>
+                          
+                          <ul className='space-y-4 text-sm text-zinc-300 flex-1 mb-8'>
+                              {p.features.map((f) => (
+                                  <li key={f} className='flex items-center gap-3 font-light'>
+                                      <Check size={16} className="shrink-0 text-emerald-500" />
+                                      {f}
+                                  </li>
+                              ))}
+                          </ul>
+
+                          <button
+                              onClick={() => handlePayment(p)}
+                              disabled={userData?.plan === p.id}
+                              className={`w-full py-3.5 rounded-xl font-bold transition-all duration-300 ${
+                                userData?.plan === p.id 
+                                  ? 'bg-white/5 text-zinc-500 cursor-not-allowed border border-white/5'
+                                  : p.popular 
+                                    ? 'bg-white hover:bg-zinc-200 text-black shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:scale-[1.02]' 
+                                    : 'bg-white/5 hover:bg-white/10 text-white border border-white/10 hover:border-white/20'
+                              }`}
+                          >
+                              {userData?.plan === p.id ? "Current Plan" : p.button}
+                          </button>
+                      </motion.div>
+                  ))}
+              </div>
             </div>
         </div>
     )

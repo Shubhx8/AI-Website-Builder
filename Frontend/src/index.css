@@ -1,14 +1,49 @@
 @import "tailwindcss";
 
-.animated-bg {
-  height: 100vh;
-  background: linear-gradient(-45deg, #0f172a, #1e3a8a, #0ea5e9, #22c55e);
-  background-size: 400% 400%;
-  animation: gradientMove 12s ease infinite;
+@layer base {
+  :root {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+  }
 }
 
-@keyframes gradientMove {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+@theme {
+  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  background-color: #09090b;
+  color: #fafafa;
+  font-family: 'Space Grotesk', sans-serif !important;
+}
+
+* {
+  font-family: 'Space Grotesk', sans-serif !important;
+}
+
+/* Force pointer cursor on interactive elements */
+a, button, [role="button"], input[type="submit"], input[type="button"], input[type="reset"], .cursor-pointer {
+  cursor: pointer !important;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+/* Hide scrollbar for IE, Edge and Firefox */
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Mask edges for infinite marquee */
+.mask-edges {
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { Sparkles, ArrowLeft } from 'lucide-react'
+import { Terminal, ArrowLeft } from 'lucide-react'
 import { signInWithPopup } from 'firebase/auth'
 import { auth, provider } from '../firebase.js'
 import axios from 'axios'
@@ -8,12 +8,14 @@ import { useDispatch } from 'react-redux'
 import { setUserData } from '../redux/userSlice.js'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
+import LoginModal from '../components/LoginModal'
 
 const Signup = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
     const [isLoading, setIsLoading] = React.useState(false)
+    const [openLogin, setOpenLogin] = React.useState(false)
 
     const handleGoogleAuth = async () => {
         try {
@@ -34,22 +36,18 @@ const Signup = () => {
     }
 
     return (
-        <div className="relative min-h-screen bg-[#050505] text-white overflow-hidden flex flex-col">
+        <div className="relative min-h-screen bg-[#09090b] text-white overflow-hidden flex flex-col font-sans">
             <Navbar />
-            
-            {/* Glow background */}
-            <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-[140px]" />
-                <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-indigo-600/20 rounded-full blur-[140px]" />
-            </div>
 
-            {/* Grid background */}
+            {/* Ambient Glow Background */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-tr from-blue-600/15 via-cyan-500/15 to-emerald-500/15 blur-[120px] rounded-[100%] pointer-events-none z-0"></div>
+
+            {/* Cyber Grid Background */}
             <div
-                className="absolute inset-0 opacity-10 pointer-events-none"
+                className="absolute inset-0 z-0 opacity-20 pointer-events-none"
                 style={{
-                    backgroundImage:
-                        "linear-gradient(to right, #ffffff15 1px, transparent 1px), linear-gradient(to bottom, #ffffff15 1px, transparent 1px)",
-                    backgroundSize: "40px 40px",
+                    backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0)',
+                    backgroundSize: '16px 16px'
                 }}
             />
 
@@ -58,32 +56,31 @@ const Signup = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
-                    className="w-full max-w-md p-px rounded-3xl bg-linear-to-br from-indigo-500/40 via-purple-500/30 to-transparent"
+                    className="w-full max-w-md p-8 bg-white/5 backdrop-blur-3xl border border-white/10 shadow-2xl rounded-3xl"
                 >
-                    <div className="relative rounded-3xl bg-[#0b0b0b] border border-white/10 p-8 sm:p-12 shadow-2xl">
-                        <button onClick={() => navigate("/")} className='absolute top-5 left-5 text-zinc-400 hover:text-white transition flex items-center gap-1 text-sm'><ArrowLeft size={16}/> Back</button>
-                        
+                    <div className="relative">
+                        <button onClick={() => navigate("/")} className='absolute -top-4 -left-4 text-zinc-400 hover:text-white transition flex items-center gap-1 text-xs uppercase tracking-widest font-bold'><ArrowLeft size={14} /> Back</button>
+
                         <div className="text-center mt-6">
-                            <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 border border-white/10 rounded-full bg-white/5 backdrop-blur">
-                                <Sparkles className="w-4 h-4 text-purple-400" />
-                                <span className="text-sm text-gray-300">
-                                    Join WEBMAXER Today
+                            <div className="inline-flex items-center gap-2 px-3 py-1 mb-8 border border-white/10 bg-white/5 rounded-full">
+                                <Terminal className="w-4 h-4 text-emerald-400 animate-pulse" />
+                                <span className="text-xs font-mono text-emerald-400 tracking-wider uppercase">
+                                    JOIN WEBMAXER
                                 </span>
                             </div>
-                            
-                            <h2 className="text-3xl font-bold mb-4">
-                                Start Building for <span className="bg-linear-to-r from-purple-400 to-indigo-500 bg-clip-text text-transparent">Free</span>
+
+                            <h2 className="text-3xl font-extrabold tracking-tight mb-2">
+                                Start Building for <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Free</span>
                             </h2>
-                            <p className="text-zinc-400 mb-8 text-sm">
-                                Create stunning, responsive websites in seconds using the power of AI. No credit card required.
+                            <p className="text-zinc-400 mb-8 text-sm font-light">
+                                Create stunning websites in seconds using AI. No credit card required.
                             </p>
 
                             <motion.button
                                 onClick={handleGoogleAuth}
                                 disabled={isLoading}
-                                whileHover={{ scale: isLoading ? 1 : 1.04 }}
-                                whileTap={{ scale: isLoading ? 1 : 0.96 }}
-                                className={`group relative w-full h-14 rounded-xl bg-white text-black font-semibold shadow-xl overflow-hidden ${isLoading ? "opacity-70 cursor-not-allowed" : ""}`}
+                                whileTap={{ scale: isLoading ? 1 : 0.98 }}
+                                className={`group relative w-full h-12 bg-white text-black font-semibold rounded-2xl shadow-[0_0_20px_rgba(255,255,255,0.15)] hover:scale-105 transition-all ${isLoading ? "opacity-70 cursor-not-allowed scale-100 hover:scale-100" : ""}`}
                             >
                                 <div className='relative flex items-center justify-center gap-3'>
                                     {isLoading ? (
@@ -102,13 +99,13 @@ const Signup = () => {
 
                             <div className='flex items-center gap-4 my-8'>
                                 <div className='h-px flex-1 bg-white/10' />
-                                <span className='text-xs tracking-tight text-zinc-500'>Secure Authentication</span>
+                                <span className='text-[10px] tracking-widest text-zinc-500 uppercase font-bold'>Secure Authentication</span>
                                 <div className='h-px flex-1 bg-white/10' />
                             </div>
 
-                            <p className="text-sm text-zinc-400">
+                            <p className="text-sm text-zinc-400 font-light">
                                 Already have an account?{" "}
-                                <button onClick={() => navigate('/')} className="text-white hover:text-purple-400 font-semibold transition">
+                                <button onClick={() => setOpenLogin(true)} className="text-white hover:text-cyan-400 font-bold transition">
                                     Log in instead
                                 </button>
                             </p>
@@ -116,6 +113,13 @@ const Signup = () => {
                     </div>
                 </motion.div>
             </div>
+            
+            {openLogin && (
+                <LoginModal
+                    open={openLogin}
+                    onClose={() => setOpenLogin(false)}
+                />
+            )}
         </div>
     )
 }

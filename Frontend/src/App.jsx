@@ -21,20 +21,20 @@ export const FullScreenLoader = () => (
 )
 
 const App = () => {
-  const {userData} = useSelector(state=>state.user)
+  const { userData } = useSelector(state => state.user)
   return (
-    <BrowserRouter>   
-       <Suspense fallback={<FullScreenLoader />}>
-         <Routes>
-           <Route path='/' element={<Home/>}/>
-           <Route path='/signup' element={userData?<Dashboard/>:<Signup/>}/>
-           <Route path='/dashboard' element={userData?<Dashboard/>:<Home/>}/>
-           <Route path='/generate' element={userData?<Generate/>:<Home/>}/>
-           <Route path='/editor/:id' element={userData?<WebsiteEditor/>:<Home/>}/>
-           <Route path='/site/:id' element={<LiveSite/>}/>
-           <Route path='/pricing' element={<Pricing/>}/>
-         </Routes>
-       </Suspense>
+    <BrowserRouter>
+      <Suspense fallback={<FullScreenLoader />}>
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/signup' element={userData ? <Dashboard /> : <Signup />} />
+          <Route path='/dashboard' element={userData ? <Dashboard /> : <Home />} />
+          <Route path='/generate' element={userData ? <Generate /> : <Home />} />
+          <Route path='/editor/:id' element={userData ? <WebsiteEditor /> : <Home />} />
+          <Route path='/site/:id' element={<LiveSite />} />
+          <Route path='/pricing' element={<Pricing />} />
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   )
 }

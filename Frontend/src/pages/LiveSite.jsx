@@ -13,15 +13,15 @@ const LiveSite = () => {
                 setHtml(res.data.latestCode)          
             } catch (error) {
                 console.log(error)
-                setError(error.response.data.message)
+                setError(error.response?.data?.message || "Failed to load live site")
             }
           }
           handleGetWebsite()
-    },[])
+    },[id])
 
     if (error) {
   return (
-    <div className="h-screen flex items-center justify-center bg-black text-white">
+    <div className="h-screen flex items-center justify-center bg-[#09090b] text-red-500 font-mono uppercase tracking-widest text-sm">
       {error}
     </div>
   )

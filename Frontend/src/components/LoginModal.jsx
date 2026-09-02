@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion } from 'motion/react'
-import { Sparkles, X } from 'lucide-react'
+import { Terminal, X } from 'lucide-react'
 import { signInWithPopup } from 'firebase/auth'
 import { auth, provider } from '../firebase.js'
 import axios from 'axios'
@@ -36,77 +36,74 @@ const LoginModal = ({ open, onClose }) => {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     onClick={onClose}
-                    className='fixed inset-0 flex z-100 items-center justify-center bg-black/80 backdrop-blur-xl px-4'>
+                    className='fixed inset-0 flex z-100 items-center justify-center bg-black/80 backdrop-blur-md px-4 font-sans'>
                     <motion.div
-                        initial={{ scale: 0.88, opacity: 0, y: 60 }}
+                        initial={{ scale: 0.95, opacity: 0, y: 20 }}
                         animate={{ scale: 1, opacity: 1, y: 0 }}
-                        exit={{ scale: 0.9, opacity: 0, y: 40 }}
-                        transition={{ duration: 0.45, ease: "easeOut" }}
-                        className='relative w-full max-w-md p-px rounded-3xl bg-linear-to-br from-purple-500/40 via-blue-500/30 to-transparent'
+                        exit={{ scale: 0.95, opacity: 0, y: 20 }}
+                        transition={{ duration: 0.3, ease: "easeOut" }}
+                        className='relative w-full max-w-md p-8 bg-white/5 backdrop-blur-3xl border border-white/10 shadow-2xl rounded-3xl'
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <div className='relative rounded-3xl bg-[#0b0b0b] border border-white/10 shadow-[0_30px_120px_rgba(0,0,0,0,0.8)] overflow-hidden'>
-                            <motion.div
-                                animate={{ opacity: [0.25, 0.4, 0.25] }}
-                                transition={{ duration: 6, repeat: Infinity }}
-                                className='absolute -top-32 -left-32 w-80 h-80 bg-purple-500/30 blur-[140px]'
-                            />
-                            <motion.div
-                                animate={{ opacity: [0.2, 0.35, 0.2] }}
-                                transition={{ duration: 6, repeat: Infinity, delay: 2 }}
-                                className='absolute -bottom-32 -right-32 w-80 h-80 bg-blue-500/25 blur-[140px]'
-                            />
-                            <button onClick={onClose} className='absolute top-5 right-5 z-20 text-zinc-400 hover:text-white transition text-lg'><X /></button>
-                            <div className='relative px-8 pt-14 pb-10 text-center'>
-                                <div
-                                    initial={{ opacity: 0, y: -20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    className="inline-flex items-center gap-2 px-4 py-2 mb-8 border border-white/10 rounded-full bg-white/5 backdrop-blur"
-                                >
-                                    <Sparkles className="w-4 h-4 text-purple-400" />
-                                    <span className="text-sm text-gray-300">
-                                        AI Website Builder
-                                    </span>
-                                </div>
-                                <h2 className='text-3xl font-semibold leading-tight mb-3 space-x-2 '>
-                                    <span className='text-white'>Welcome to</span>
-                                    <span className='bg-linear-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent'>WEBMAXER</span>
-                                </h2>
-                                <motion.button
-                                    onClick={handleGoogleAuth}
-                                    disabled={isLoading}
-                                    whileHover={{ scale: isLoading ? 1 : 1.04 }}
-                                    whileTap={{ scale: isLoading ? 1 : 0.96 }}
-                                    className={`group relative w-full h-13 rounded-xl bg-white text-black font-semibold shadow-xl overflow-hidden ${isLoading ? "opacity-70 cursor-not-allowed" : ""}`}>
-                                    <div className='relative flex items-center justify-center gap-3'>
-                                        {isLoading ? (
-                                            <div className="flex items-center gap-2">
-                                                <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
-                                                Signing in...
-                                            </div>
-                                        ) : (
-                                            <>
-                                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/3840px-Google_%22G%22_logo.svg.png" alt="" className='h-5 w-5' />
-                                                Continue with Google
-                                            </>
-                                        )}
-                                    </div>
+                        {/* Cyber Grid Background */}
+                        <div
+                            className="absolute inset-0 z-0 opacity-20 pointer-events-none"
+                            style={{
+                                backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0)',
+                                backgroundSize: '16px 16px'
+                            }}
+                        />
 
-                                </motion.button>
+                        <button onClick={onClose} className='absolute top-5 right-5 z-20 text-zinc-500 hover:text-white transition'><X size={20} /></button>
 
-                                <div className='flex items-center gap-4 my-10'>
-                                    <div className='h-px flex-1 bg-white/10' />
-                                    <span className='text-xs tracking-tight text-zinc-500'>Secure Login</span>
-                                    <div className='h-px flex-1 bg-white/10' />
-                                </div>
+                        <div className='relative z-10 text-center pt-4 pb-2'>
 
-                                <p className='text-xs text-zinc-500 leading-relaxed'>
-                                    By continuing you agree to our{" "}
-                                    <span className='underline cursor-pointer hover:text-zinc-300'>Terms of Services</span>{" "}
-                                    and{" "}
-                                    <span className='underline cursor-pointer hover:text-zinc-300'>Privacy Policy</span>
-                                </p>
+                            <div
+                                className="inline-flex items-center gap-2 px-3 py-1 mb-8 border border-white/10 bg-white/5 rounded-full"
+                            >
+                                <Terminal className="w-4 h-4 text-emerald-400 animate-pulse" />
+                                <span className="text-xs font-mono text-emerald-400 tracking-wider uppercase">
+                                    WEBMAXER
+                                </span>
                             </div>
+
+                            <h2 className='text-3xl font-extrabold tracking-tight leading-tight mb-2'>
+                                <span className='text-white'>Welcome Back</span>
+                            </h2>
+                            <p className='text-sm text-zinc-400 font-light mb-8'>Log in to your account to continue building.</p>
+
+                            <motion.button
+                                onClick={handleGoogleAuth}
+                                disabled={isLoading}
+                                whileTap={{ scale: isLoading ? 1 : 0.98 }}
+                                className={`group relative w-full h-12 bg-white text-black font-semibold rounded-2xl shadow-[0_0_20px_rgba(255,255,255,0.15)] hover:scale-105 transition-all ${isLoading ? "opacity-70 cursor-not-allowed scale-100 hover:scale-100" : ""}`}>
+                                <div className='relative flex items-center justify-center gap-3'>
+                                    {isLoading ? (
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
+                                            Logging in...
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/3840px-Google_%22G%22_logo.svg.png" alt="" className='h-5 w-5' />
+                                            Continue with Google
+                                        </>
+                                    )}
+                                </div>
+                            </motion.button>
+
+                            <div className='flex items-center gap-4 my-8'>
+                                <div className='h-px flex-1 bg-zinc-800' />
+                                <span className='text-[10px] tracking-widest text-zinc-600 uppercase font-bold'>Secure Login</span>
+                                <div className='h-px flex-1 bg-zinc-800' />
+                            </div>
+
+                            <p className='text-xs text-zinc-500 leading-relaxed font-light'>
+                                By continuing, you agree to our{" "}
+                                <span className='underline cursor-pointer hover:text-zinc-300'>Terms of Service</span>{" "}
+                                and{" "}
+                                <span className='underline cursor-pointer hover:text-zinc-300'>Privacy Policy</span>
+                            </p>
                         </div>
                     </motion.div>
                 </motion.div>
