@@ -336,7 +336,7 @@ export const deployWebsite = async (req, res) => {
 };
 
 export const getBySlug = async (req, res) => {
-  try {  
+  try {
     const website = await Website.findOne({
       slug: req.params.slug
     });

@@ -11,11 +11,24 @@ const userschema = new mongoose.Schema({
     },
     avatar:{
         type:String,
-        required: true,
+        default: ""
+    },
+    password:{
+        type:String,
+    },
+    isVerified:{
+        type:Boolean,
+        default:false,
+    },
+    otp:{
+        type:String,
+    },
+    otpExpires:{
+        type:Date,
     },
     credits:{
         type:Number,
-        default:500,
+        default:100,
         min:0,
     },
     plan:{

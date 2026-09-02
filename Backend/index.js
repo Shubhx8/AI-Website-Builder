@@ -30,6 +30,7 @@ app.get('/api/health', (req, res) => {
     res.status(200).json({ status: 'ok', message: 'Server is awake' })
 })
 
+
 app.listen(PORT, ()=>{
     connectDB()
     console.log(`Server is listening at port : ${PORT}` )

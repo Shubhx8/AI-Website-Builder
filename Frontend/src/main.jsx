@@ -20,6 +20,18 @@ axios.interceptors.request.use((config) => {
   return config;
 }, (error) => Promise.reject(error));
 
+axios.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 400 && error.response.data?.message === "Token not found") {
+      // Clear stale user data and redirect
+      store.dispatch({ type: 'user/setUserData', payload: null });
+      window.location.href = '/';
+    }
+    return Promise.reject(error);
+  }
+);
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Provider store={store}>

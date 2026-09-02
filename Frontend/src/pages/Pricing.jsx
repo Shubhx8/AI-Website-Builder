@@ -1,4 +1,4 @@
-import { ArrowLeft, Check, Coins, Zap } from 'lucide-react'
+import { ArrowLeft, Check, Coins, Zap, Loader2 } from 'lucide-react'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
@@ -58,6 +58,7 @@ const Pricing = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const { userData } = useSelector(state => state.user)
+    const [loadingPlan, setLoadingPlan] = useState(null)
 
     const handlePayment = async (plan) => {
         if (!userData) {
@@ -70,6 +71,7 @@ const Pricing = () => {
             return
         }
         try {  
+            setLoadingPlan(plan.id)
             const amount = plan.id === "enterprise" ? 1499 : 499
             const result = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/payment/order`, {
                 planId: plan.id,
@@ -102,10 +104,14 @@ const Pricing = () => {
                 }
             }
             const rzp = new window.Razorpay(options)
+            rzp.on('payment.failed', function (response){
+                setLoadingPlan(null)
+            });
             rzp.open()
+            setLoadingPlan(null)
         } catch (error) {
             console.log(error)
-            
+            setLoadingPlan(null)
         }
     }
     return (
@@ -182,8 +188,8 @@ const Pricing = () => {
 
                           <button
                               onClick={() => handlePayment(p)}
-                              disabled={userData?.plan === p.id}
-                              className={`w-full py-3.5 rounded-xl font-bold transition-all duration-300 ${
+                              disabled={userData?.plan === p.id || loadingPlan === p.id}
+                              className={`w-full py-3.5 rounded-xl font-bold transition-all duration-300 flex items-center justify-center gap-2 ${
                                 userData?.plan === p.id 
                                   ? 'bg-white/5 text-zinc-500 cursor-not-allowed border border-white/5'
                                   : p.popular 
@@ -191,7 +197,14 @@ const Pricing = () => {
                                     : 'bg-white/5 hover:bg-white/10 text-white border border-white/10 hover:border-white/20'
                               }`}
                           >
-                              {userData?.plan === p.id ? "Current Plan" : p.button}
+                              {loadingPlan === p.id ? (
+                                <>
+                                  <Loader2 className="w-5 h-5 animate-spin" />
+                                  Loading...
+                                </>
+                              ) : (
+                                userData?.plan === p.id ? "Current Plan" : p.button
+                              )}
                           </button>
                       </motion.div>
                   ))}
