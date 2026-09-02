@@ -39,8 +39,9 @@ function Dashboard() {
     handleGetAllWebsite()
   }, [])
 
-  const handleCopy = async (site) => {
-    await navigator.clipboard.writeText(site.deployUrl)
+    const handleCopy = async (site) => {
+    const dynamicUrl = site.deployUrl.replace(/^https?:\/\/[^\/]+/, window.location.origin)
+    await navigator.clipboard.writeText(dynamicUrl)
     setCopiedId(site._id)
     setTimeout(() => setCopiedId(null), 2000)
   }
