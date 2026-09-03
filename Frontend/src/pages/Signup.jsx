@@ -28,17 +28,20 @@ const Signup = () => {
     // Verification State
     const [otp, setOtp] = useState(['', '', '', '', '', ''])
     const [timeLeft, setTimeLeft] = useState(600) // 10 minutes in seconds
+    const [resendTimer, setResendTimer] = useState(10) // 10 seconds before resend allowed
     const otpRefs = useRef([])
 
     // Timer effect
     useEffect(() => {
-        if (view === 'verify' && timeLeft > 0) {
-            const timerId = setInterval(() => {
-                setTimeLeft(prev => prev - 1)
+        let timerId;
+        if (view === 'verify') {
+            timerId = setInterval(() => {
+                setTimeLeft(prev => prev > 0 ? prev - 1 : 0)
+                setResendTimer(prev => prev > 0 ? prev - 1 : 0)
             }, 1000)
-            return () => clearInterval(timerId)
         }
-    }, [view, timeLeft])
+        return () => clearInterval(timerId)
+    }, [view])
 
     const formatTime = (seconds) => {
         const m = Math.floor(seconds / 60)
@@ -125,6 +128,7 @@ const Signup = () => {
             })
             if (res.data.success) {
                 setTimeLeft(600)
+                setResendTimer(10)
                 setError('')
                 setOtp(['', '', '', '', '', ''])
                 otpRefs.current[0].focus()
@@ -348,9 +352,18 @@ const Signup = () => {
 
                                 <div className="text-sm">
                                     {timeLeft > 0 ? (
-                                        <p className="text-zinc-500">
-                                            Code expires in <span className="font-mono text-cyan-400">{formatTime(timeLeft)}</span>
-                                        </p>
+                                        <div className="flex flex-col items-center gap-3">
+                                            <p className="text-zinc-500">
+                                                Code expires in <span className="font-mono text-cyan-400">{formatTime(timeLeft)}</span>
+                                            </p>
+                                            <button 
+                                                onClick={handleResendOtp}
+                                                disabled={isLoading || resendTimer > 0}
+                                                className={`text-xs font-medium transition ${resendTimer > 0 ? 'text-zinc-600 cursor-not-allowed' : 'text-cyan-400 hover:text-cyan-300 underline underline-offset-4'}`}
+                                            >
+                                                {resendTimer > 0 ? `Resend code in ${resendTimer}s` : 'Resend code'}
+                                            </button>
+                                        </div>
                                     ) : (
                                         <div className="space-y-3">
                                             <p className="text-red-400/80">Verification code expired</p>
