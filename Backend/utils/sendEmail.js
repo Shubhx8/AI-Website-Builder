@@ -1,25 +1,28 @@
-import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 dotenv.config();
 
 export const sendOTP = async (email, otp) => {
     try {
-        const transporter = nodemailer.createTransport({
-            service: 'gmail', 
-            auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS
-            },
-            connectionTimeout: 5000, // 5 seconds
-            greetingTimeout: 5000,
-            socketTimeout: 5000
-        });
+        const brevoApiKey = process.env.BREVO_API_KEY;
+        const senderEmail = process.env.EMAIL_USER; // E.g., shubhamsanap880@gmail.com
 
-        const mailOptions = {
-            from: process.env.EMAIL_USER,
-            to: email,
+        if (!brevoApiKey) {
+            console.error("BREVO_API_KEY is missing from environment variables!");
+            return false;
+        }
+
+        const payload = {
+            sender: {
+                name: "WEBMAXER",
+                email: senderEmail
+            },
+            to: [
+                {
+                    email: email
+                }
+            ],
             subject: 'Verify your WEBMAXER Account',
-            html: `
+            htmlContent: `
                 <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px; background-color: #f9f9f9;">
                     <h2 style="color: #333; text-align: center; margin-bottom: 20px;">Welcome to WEBMAXER!</h2>
                     <p style="color: #555; font-size: 16px; text-align: center;">Please use the verification code below to complete your registration.</p>
@@ -33,8 +36,23 @@ export const sendOTP = async (email, otp) => {
             `
         };
 
-        const info = await transporter.sendMail(mailOptions);
-        console.log('Email sent: ' + info.response);
+        const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+            method: 'POST',
+            headers: {
+                'accept': 'application/json',
+                'api-key': brevoApiKey,
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+            const errorData = await response.text();
+            console.error("Brevo API Error:", errorData);
+            return false;
+        }
+
+        console.log('Email sent successfully via Brevo API');
         return true;
     } catch (error) {
         console.error("Email Error:", error);
