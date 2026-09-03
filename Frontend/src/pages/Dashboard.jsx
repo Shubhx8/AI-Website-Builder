@@ -1,4 +1,4 @@
-import { ArrowLeft, Check, Rocket, Share2 } from "lucide-react";
+import { ArrowLeft, Check, Rocket, Share2, Trash2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { motion } from 'framer-motion'
 import { useNavigate } from "react-router-dom";
@@ -21,6 +21,18 @@ function Dashboard() {
       setWebsites((prev) => prev.map((w) => w._id === id ? { ...w, deployed: true, deployUrl: dynamicUrl } : w))
     } catch (error) {
       console.log(error)
+    }
+  }
+
+  const handleDelete = async (id) => {
+    if (window.confirm("Are you sure you want to delete this project? This action cannot be undone.")) {
+      try {
+        await axios.delete(`${import.meta.env.VITE_SERVER_URL}/api/website/delete/${id}`, { withCredentials: true })
+        setWebsites((prev) => prev.filter((w) => w._id !== id))
+      } catch (error) {
+        console.log(error)
+        setError(error.response?.data?.message || "Failed to delete project.")
+      }
     }
   }
 
@@ -145,7 +157,16 @@ function Dashboard() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-40 transition-opacity" />
                 </div>
                 <div className="p-6 flex flex-col gap-4 flex-1">
-                  <h3 className="text-lg font-bold tracking-tight line-clamp-2 text-white group-hover:text-cyan-400 transition-colors">{w.title}</h3>
+                  <div className="flex items-start justify-between gap-4">
+                    <h3 className="text-lg font-bold tracking-tight line-clamp-2 text-white group-hover:text-cyan-400 transition-colors">{w.title}</h3>
+                    <button 
+                      onClick={(e) => { e.stopPropagation(); handleDelete(w._id); }}
+                      className="p-2 text-zinc-500 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors shrink-0"
+                      title="Delete project"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
                   <p className="text-[10px] text-zinc-500 font-mono uppercase tracking-widest">
                     UPDATED: {new Date(w.updatedAt).toLocaleDateString()}
                   </p>

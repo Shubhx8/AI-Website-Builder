@@ -272,6 +272,10 @@ const Signup = () => {
                                     </button>
                                 </form>
 
+                                <p className="mt-5 text-center text-zinc-400 text-sm">
+                                    Already have an account? <span onClick={() => document.getElementById('navbar-login-btn')?.click()} className="text-cyan-400 font-semibold hover:underline cursor-pointer">Sign in</span>
+                                </p>
+
                                 <div className='flex items-center gap-4 my-6'>
                                     <div className='h-px flex-1 bg-zinc-800' />
                                     <span className='text-[10px] tracking-widest text-zinc-600 uppercase font-bold'>Or continue with</span>

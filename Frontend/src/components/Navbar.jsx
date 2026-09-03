@@ -164,6 +164,7 @@ const Navbar = () => {
 
               <div className="flex items-center gap-2 sm:gap-3">
                 <button
+                  id="navbar-login-btn"
                   onClick={() => setOpenLogin(true)}
                   className="hidden sm:block px-4 py-2 text-sm rounded-xl font-medium text-zinc-300 hover:text-white hover:bg-white/10 transition"
                 >
