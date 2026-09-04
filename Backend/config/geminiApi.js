@@ -10,11 +10,8 @@ export const generateResponse = async (promptOrMessages, enableReasoning = false
     throw new Error("GEMINI_API_KEY is missing from your .env file!");
   }
 
-  // Using Google's native Gemini API for stability and generous free tier
-  
-// Change this line in your geminiApi.js file:
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${apiKey}`;
-
+  // Using the specific model version required by the API
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey}`;
 
   let contents = [];
   
